@@ -1,0 +1,12 @@
+﻿@model PassionProjectS2024AN01648493.Models.ContentDto
+@{
+    ViewBag.Title = "DeleteConfirm";
+}
+
+<h2>DeleteConfirm</h2>
+<p>Are you sure you want to delete @Model.content?</p>
+
+<form method="POST" action="/Content/Delete/@Model.content_Id">
+    <input type="submit" value="Confirm Delete"/>
+</form>
+

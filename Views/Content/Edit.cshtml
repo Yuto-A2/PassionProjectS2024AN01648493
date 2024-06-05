@@ -1,0 +1,23 @@
+﻿@model PassionProjectS2024AN01648493.Models.ContentDto
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+<form method="POST" action="/Content/Update/@Model.content_Id">
+    <input type="text" name="content_Id" value="@Model.content_Id" />
+    <div>
+        <label>Title</label>
+        <input type="text" name="title" value="@Model.title" />
+    </div>
+
+    <div>
+        <label>Content</label>
+        <input type="text" name="content" value="@Model.content" />
+    </div>
+
+    <div>
+        <input type="submit" value="Update" />
+    </div>
+</form>
+
