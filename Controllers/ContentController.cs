@@ -24,29 +24,35 @@ namespace PassionProjectS2024AN01648493.Controllers
         // GET: Content/List
         public ActionResult List()
         {
-            //curl localhost:xx/api/ContentData/ListContents
+            //curl localhost:44302/api/ContentData/ListContents 
+            //This command line works.
+
             string url = "listcontents";
 
             HttpResponseMessage response = client.GetAsync(url).Result;
+            //Debug.WriteLine(response.StatusCode); OK.
+
             IEnumerable<ContentDto> Contents = response.Content.ReadAsAsync<IEnumerable<ContentDto>>().Result;
             //Views/Content/List.cshtml
-
+            
             return View(Contents);
         }
 
-        //GET: Content/Details/{id}
+        //GET: Content/Details/5
         public ActionResult Details(int id)
         {
-            //curl api/ContentData/FindContent/{id}
-            string url = "findcontent/" + id;
+            //curl Https://localhost:44302/api/ContentData/FindContent/{id}
+            //This command works.
+
+            string url = "findcontent/"+id;
 
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            ContentDto content = response.Content.ReadAsAsync<ContentDto>().Result;
+            ContentDto selectedcontent = response.Content.ReadAsAsync<ContentDto>().Result;
             //Views/Content/Show.cshtml
 
 
-            return View(content);
+            return View(selectedcontent);
         }
 
         public ActionResult Error()
@@ -64,13 +70,20 @@ namespace PassionProjectS2024AN01648493.Controllers
         [HttpPost]
         public ActionResult Create(Content content)
         {
+            Debug.WriteLine("the json payload is: ");
+            Debug.WriteLine(content.title);//System.NullReferenceException:
+                                           //content.title = 'content.title' threw an exception of type 'System.NullReferenceException'
+                                           //What does this mean?
+
             string url = "addcontent";
             string jsonpayload = jss.Serialize(content);
-
             //curl -H "Content -Type:application/jason" -d @content.json https://localhost:44302/api/contentdata/addcontent
             HttpContent httpContent = new StringContent(jsonpayload);
             httpContent.Headers.ContentType.MediaType = "application/json";
             HttpResponseMessage response = client.PostAsync(url, httpContent).Result;
+
+            Debug.WriteLine(jsonpayload);
+           
 
             if (response.IsSuccessStatusCode)
             {
